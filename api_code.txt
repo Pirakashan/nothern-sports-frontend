@@ -1,0 +1,35 @@
+156:     district_id?: number;
+157:     profile_photo?: string;
+158:     district?: District;
+159:     created_at?: string;
+160:     updated_at?: string;
+161: }
+162: 
+163: // ─── Auth APIs ────────────────────────────────────────────────────────────────
+164: 
+165: export const authApi = {
+166:     register: (data: {
+167:         name: string;
+168:         email: string;
+169:         phone?: string;
+170:         password: string;
+171:         password_confirmation: string;
+172:     }) =>
+173:         request<{ message: string; user: User; token: string }>('/register', {
+174:             method: 'POST',
+175:             body: JSON.stringify(data),
+176:         }),
+177: 
+178:     login: (data: { email: string; password: string }) =>
+179:         request<{ message: string; user: User; token: string }>('/login', {
+180:             method: 'POST',
+181:             body: JSON.stringify(data),
+182:         }),
+183: 
+184:     logout: () =>
+185:         request<{ message: string }>('/logout', { method: 'POST' }),
+186: 
+187:     profile: () => request<{ user: User }>('/my-profile'),
+188: 
+189:     updateProfile: (data: FormData) =>
+190:         request<{ message: string; user: User; profile_photo_url?: string }>(

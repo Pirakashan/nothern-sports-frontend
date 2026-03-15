@@ -1,0 +1,29 @@
+32:     if (!res.ok) {
+33:         const errorBody = await res.json().catch(() => ({}));
+34:         const err: any = new Error(errorBody.message || `API error ${res.status}`);
+35:         err.status = res.status;
+36:         err.errors = errorBody.errors;
+37:         throw err;
+38:     }
+39: 
+40:     return res.json();
+41: }
+42: 
+43: // ─── Types ────────────────────────────────────────────────────────────────────
+44: 
+45: export interface District {
+46:     id: number;
+47:     name: string;
+48:     address?: string;
+49:     contact?: string;
+50:     working_hours?: string;
+51: }
+52: 
+53: export interface Facility {
+54:     id: number;
+55:     district_id: number;
+56:     name: string;
+57:     slug: string;
+58:     description: string;
+59:     image?: string;
+60:     district?: District;

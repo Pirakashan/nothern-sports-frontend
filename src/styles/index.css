@@ -1,0 +1,24 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+
+/* Global Selection Styling */
+::selection {
+  background-color: rgba(212, 175, 55, 0.3); /* Transparent Brand Gold */
+  color: #000000;
+}
+
+::-moz-selection {
+  background-color: rgba(212, 175, 55, 0.3);
+  color: #000000;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Ensure main content doesn't hide behind fixed header */
+body {
+  margin: 0;
+  padding: 0;
+}

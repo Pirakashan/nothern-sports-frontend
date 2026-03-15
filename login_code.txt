@@ -1,0 +1,80 @@
+1: import React, { useState } from 'react';
+2: import { Link, useNavigate } from 'react-router';
+3: import { useTranslation } from 'react-i18next';
+4: import { Mail, Lock, Loader2, AlertCircle, ArrowRight, UserPlus } from 'lucide-react';
+5: import { Button } from '../components/ui/button';
+6: import { Input } from '../components/ui/input';
+7: import { Label } from '../components/ui/label';
+8: import { authApi, saveAuth } from '../api';
+9: 
+10: export function Login() {
+11:     const { t } = useTranslation();
+12:     const navigate = useNavigate();
+13: 
+14:     const [email, setEmail] = useState('');
+15:     const [password, setPassword] = useState('');
+16:     const [loading, setLoading] = useState(false);
+17:     const [error, setError] = useState<string | null>(null);
+18: 
+19:     const handleSubmit = async (e: React.FormEvent) => {
+20:         e.preventDefault();
+21:         setLoading(true);
+22:         setError(null);
+23: 
+24:         try {
+25:             const res = await authApi.login({ email, password });
+26:             saveAuth(res.token, res.user);
+27: 
+28:             // Redirect based on role
+29:             if (res.user.role === 'system_admin' || res.user.role === 'sub_admin') {
+30:                 navigate('/admin/dashboard');
+31:             } else {
+32:                 navigate('/dashboard');
+33:             }
+34:             // Force a reload or state update to refresh header
+35:             window.location.reload();
+36:         } catch (err: any) {
+37:             setError(err.message || 'Login failed. Please check your credentials.');
+38:         } finally {
+39:             setLoading(false);
+40:         }
+41:     };
+42: 
+43:     return (
+44:         <div className="min-h-screen pt-24 pb-16 bg-[#F9FAFB] flex items-center justify-center font-['Montserrat']">
+45:             <div className="container mx-auto px-4 flex justify-center">
+46:                 <div className="w-full max-w-[450px]">
+47:                     {/* Logo / Title Area */}
+48:                     <div className="text-center mb-10">
+49:                         <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-black text-white mb-6 shadow-lg">
+50:                             <Lock className="w-8 h-8" />
+51:                         </div>
+52:                         <h1 className="text-3xl font-bold text-gray-900 mb-2 tracking-tight">{t('login.welcome')}</h1>
+53:                         <p className="text-gray-500 font-medium">{t('login.subtitle')}</p>
+54:                     </div>
+55: 
+56:                     {/* Login Card */}
+57:                     <div className="bg-white rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 p-8 md:p-10">
+58:                         <form onSubmit={handleSubmit} className="space-y-6">
+59:                             {error && (
+60:                                 <div className="flex items-center gap-3 p-4 rounded-xl bg-red-50 border border-red-100 text-red-700 text-sm animate-in fade-in slide-in-from-top-1">
+61:                                     <AlertCircle className="w-5 h-5 shrink-0" />
+62:                                     <span className="font-medium">{error}</span>
+63:                                 </div>
+64:                             )}
+65: 
+66:                             <div className="space-y-2">
+67:                                 <Label htmlFor="email" className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">
+68:                                     {t('login.emailLabel')}
+69:                                 </Label>
+70:                                 <div className="relative group">
+71:                                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-black transition-colors">
+72:                                         <Mail className="w-5 h-5" />
+73:                                     </div>
+74:                                     <Input
+75:                                         id="email"
+76:                                         type="email"
+77:                                         placeholder="name@company.com"
+78:                                         value={email}
+79:                                         onChange={(e) => setEmail(e.target.value)}
+80:                                         required

@@ -1,0 +1,78 @@
+1751:         </div>
+1752:     );
+1753: }
+1754: 
+1755: // ─── Shared Local Components ──────────────────────────────────────────────────
+1756: 
+1757: function NavItem({ icon, label, active, onClick }: any) {
+1758:     return (
+1759:         <button
+1760:             onClick={onClick}
+1761:             className={`flex items-center gap-3 w-full px-4 py-3.5 rounded-2xl transition-all duration-200 group ${active
+1762:                 ? 'bg-white text-black font-bold shadow-lg shadow-black/5'
+1763:                 : 'text-gray-400 hover:text-white hover:bg-white/5 font-medium'
+1764:                 }`}
+1765:         >
+1766:             <span className={`${active ? 'text-black' : 'text-gray-500 group-hover:text-gray-300'} transition-colors`}>{icon}</span>
+1767:             <span className="text-sm tracking-tight">{label}</span>
+1768:         </button>
+1769:     );
+1770: }
+1771: 
+1772: function StatCard({ title, value, icon, trend, alert }: any) {
+1773:     return (
+1774:         <Card className={`border-none shadow-[0_8px_30px_rgb(0,0,0,0.03)] rounded-[24px] overflow-hidden ${alert ? 'ring-2 ring-amber-400' : ''}`}>
+1775:             <CardContent className="p-6">
+1776:                 <div className="flex items-center justify-between mb-4">
+1777:                     <div className="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center group-hover:scale-110 transition-transform">
+1778:                         {icon}
+1779:                     </div>
+1780:                     <Badge variant="secondary" className="bg-emerald-50 text-emerald-600 border-none font-bold text-[10px] uppercase">
+1781:                         {trend}
+1782:                     </Badge>
+1783:                 </div>
+1784:                 <h3 className="text-[11px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-2">{title}</h3>
+1785:                 <p className="text-3xl font-black text-gray-900 tracking-tighter">{value}</p>
+1786:             </CardContent>
+1787:         </Card>
+1788:     );
+1789: }
+1790: 
+1791: function QuickActionBtn({ icon, label, onClick }: any) {
+1792:     return (
+1793:         <button
+1794:             onClick={onClick}
+1795:             className="flex items-center gap-4 w-full p-4 rounded-2xl bg-[#F8F9FC] hover:bg-[#F1F3F9] border border-transparent hover:border-gray-100 transition-all group group"
+1796:         >
+1797:             <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+1798:                 {icon}
+1799:             </div>
+1800:             <span className="font-bold text-sm text-gray-800 tracking-tight">{label}</span>
+1801:             <Plus className="w-4 h-4 ml-auto text-gray-300 group-hover:text-black transition-colors" />
+1802:         </button>
+1803:     );
+1804: }
+1805: 
+1806: function ReportCard({ title, count, color, description, active, onClick }: any) {
+1807:     const isEmerald = color === 'emerald';
+1808:     return (
+1809:         <button
+1810:             onClick={onClick}
+1811:             className={`p-8 rounded-[32px] border transition-all duration-300 text-left cursor-pointer group hover:scale-[1.02] ${active
+1812:                 ? (isEmerald ? 'bg-emerald-50 border-emerald-300 ring-2 ring-emerald-500/20' : 'bg-red-50 border-red-300 ring-2 ring-red-500/20')
+1813:                 : (isEmerald ? 'bg-white border-emerald-100 opacity-60 hover:opacity-100' : 'bg-white border-red-100 opacity-60 hover:opacity-100')
+1814:                 }`}
+1815:         >
+1816:             <div className="flex items-center justify-between mb-6">
+1817:                 <h4 className={`font-black text-3xl ${isEmerald ? 'text-emerald-900' : 'text-red-900'}`}>{count}</h4>
+1818:                 <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-transform group-hover:rotate-12 ${isEmerald ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'
+1819:                     }`}>
+1820:                     {isEmerald ? <CheckCircle2 className="w-8 h-8" /> : <XCircle className="w-8 h-8" />}
+1821:                 </div>
+1822:             </div>
+1823:             <h5 className="font-black text-lg text-gray-900 mb-2 truncate">{title}</h5>
+1824:             <p className="text-xs font-bold text-gray-500 leading-relaxed line-clamp-2">{description}</p>
+1825:         </button>
+1826:     );
+1827: }
+1828: 

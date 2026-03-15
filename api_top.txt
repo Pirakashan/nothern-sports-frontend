@@ -1,0 +1,30 @@
+1: /**
+2:  * API Service Layer
+3:  * Connects the React frontend to the Laravel backend API.
+4:  * All API calls are proxied through Vite's dev server to avoid CORS issues.
+5:  */
+6: 
+7: const API_BASE = '/api';
+8: 
+9: // ─── Helper ───────────────────────────────────────────────────────────────────
+10: 
+11: async function request<T>(
+12:     endpoint: string,
+13:     options: RequestInit = {}
+14: ): Promise<T> {
+15:     const token = localStorage.getItem('auth_token');
+16: 
+17:     const headers: Record<string, string> = {
+18:         Accept: 'application/json',
+19:         ...(options.body instanceof FormData
+20:             ? {}
+21:             : { 'Content-Type': 'application/json' }),
+22:         ...(token ? { Authorization: `Bearer ${token}` } : {}),
+23:         ...(options.headers as Record<string, string> ?? {}),
+24:     };
+25: 
+26:     const res = await fetch(`${API_BASE}${endpoint}`, {
+27:         ...options,
+28:         headers,
+29:         credentials: 'include',
+30:     });
