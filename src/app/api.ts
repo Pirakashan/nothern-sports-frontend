@@ -4,7 +4,7 @@
  * All API calls are proxied through Vite's dev server to avoid CORS issues.
  */
 
-const API_BASE = '/api';
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 // ─── Helper ───────────────────────────────────────────────────────────────────
 
